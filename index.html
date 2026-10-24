@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BookNest | Your Reading Space</title>
+<style>
+:root{--bg:#f7f4ee;--paper:#fffdf8;--ink:#282b25;--muted:#77796f;--green:#3c6248;--lime:#d8e7bd;--line:#e6e1d6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Segoe UI,Arial,sans-serif}
+header{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;padding:22px 6%;background:var(--paper);border-bottom:1px solid var(--line)}
+.logo{font-weight:900;font-size:27px;letter-spacing:-1px}.logo span{color:var(--green)}
+button,input,select,textarea{font:inherit}
+button{border:0;border-radius:9px;padding:11px 15px;background:var(--green);color:white;font-weight:700;cursor:pointer}
+button:hover{opacity:.88}.secondary{background:#ecefe5;color:var(--ink)}
+main{max-width:1200px;margin:auto;padding:28px 22px}
+.hero{padding:clamp(25px,5vw,55px);border-radius:20px;background:#e5ebd9;display:grid;grid-template-columns:1.4fr .6fr;align-items:center;gap:20px}
+.eyebrow{color:var(--green);font-weight:800;letter-spacing:2px;font-size:12px}
+h1{font-size:clamp(35px,6vw,62px);line-height:1.05;letter-spacing:-2px;margin:14px 0}
+.hero p{max-width:520px;color:#5c6556;line-height:1.8}
+.hero-art{text-align:center;font-size:clamp(70px,12vw,125px);filter:drop-shadow(0 15px 10px #0002)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:18px}
+.stat span{font-size:13px;color:var(--muted)}.stat h2{margin:8px 0 0;font-size:29px;color:var(--green)}
+.heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:32px 0 15px}
+.heading h2{margin:0;font-size:25px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}
+input,select,textarea{background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:12px;min-width:0}
+#search{flex:1;min-width:190px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:17px}
+.filters button{background:#eae6dc;color:var(--ink);font-size:13px;padding:9px 13px}
+.filters button.active{background:var(--green);color:white}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr));gap:16px}
+.book{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.cover{height:165px;border-radius:9px;display:grid;place-items:center;font-size:67px;position:relative;overflow:hidden}
+.cover:after{content:"";position:absolute;inset:10px;border:1px solid #ffffff77;border-radius:5px}
+.cover.a{background:linear-gradient(145deg,#dfbfa0,#966c4c)}.cover.b{background:linear-gradient(145deg,#b7c8aa,#4e7256)}.cover.c{background:linear-gradient(145deg,#e8c3c9,#a45b71)}.cover.d{background:linear-gradient(145deg,#b9c8e5,#637ca8)}.cover.e{background:linear-gradient(145deg,#e8d79c,#b47c35)}.cover.f{background:linear-gradient(145deg,#d1c2e9,#79649c)}
+.book h3{margin:0;font-size:18px}.author{color:var(--muted);font-size:13px;margin-top:-7px}
+.tag{display:inline-block;border-radius:20px;padding:5px 9px;background:#eaf0e1;color:var(--green);font-size:11px;align-self:flex-start}
+.book p{color:var(--muted);font-size:13px;line-height:1.5;margin:0}
+.progressrow{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+progress{width:100%;height:7px;accent-color:var(--green)}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto}
+.actions button{font-size:12px;padding:8px 10px}.actions .secondary{border:1px solid var(--line)}
+.empty{grid-column:1/-1;text-align:center;padding:32px;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:16px;z-index:5}
+.modal.open{display:flex}.dialog{width:min(500px,100%);max-height:90vh;overflow:auto;background:var(--paper);border-radius:15px;padding:23px;display:grid;gap:11px}
+.dialog h2{margin:0 0 5px}.dialog input,.dialog select,.dialog textarea{width:100%}
+footer{text-align:center;padding:30px;color:var(--muted);font-size:13px}
+@media(max-width:650px){header{padding:18px}main{padding:20px 14px}.hero{grid-template-columns:1fr}.hero-art{display:none}.stats{gap:8px}.stat{padding:12px}.stat h2{font-size:24px}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">Book<span>Nest.</span></div>
+<button onclick="openForm()">＋ Add a book</button>
+</header>
+<main>
+<section class="hero">
+<div>
+<div class="eyebrow">A LITTLE SPACE FOR BIG IDEAS</div>
+<h1>Your next chapter<br>starts here.</h1>
+<p>Build your personal bookshelf, keep track of your reading progress, and collect the books you want to read next.</p>
+<button onclick="document.getElementById('library').scrollIntoView({behavior:'smooth'})">Explore my library ↓</button>
+</div>
+<div class="hero-art">📚</div>
+</section>
+<section class="stats">
+<div class="stat"><span>Total books</span><h2 id="total">0</h2></div>
+<div class="stat"><span>Completed</span><h2 id="completed">0</h2></div>
+<div class="stat"><span>Currently reading</span><h2 id="reading">0</h2></div>
+</section>
+<section id="library">
+<div class="heading"><h2>My bookshelf</h2><span class="tag">Your reading journey</span></div>
+<div class="tools">
+<input id="search" placeholder="Search title or author..." oninput="render()">
+<select id="sort" onchange="render()"><option value="default">Recently added</option><option value="az">Title A–Z</option><option value="progress">Progress: highest first</option></select>
+</div>
+<div class="filters" id="filters"></div>
+<div class="grid" id="books"></div>
+</section>
+</main>
+<footer>BookNest © 2026 · Your reading journey, one page at a time.</footer>
+<div class="modal" id="modal">
+<form class="dialog" id="bookform">
+<h2 id="formtitle">Add a book</h2>
+<input id="title" placeholder="Book title" maxlength="100" required>
+<input id="author" placeholder="Author name" maxlength="80" required>
+<select id="genre"><option>Fiction</option><option>Self Development</option><option>Technology</option><option>Science</option><option>Biography</option><option>Mystery</option><option>Other</option></select>
+<select id="status"><option>Want to Read</option><option>Reading</option><option>Completed</option></select>
+<input id="pages" type="number" placeholder="Total pages (optional)" min="1">
+<input id="current" type="number" placeholder="Pages read (optional)" min="0" value="0">
+<div class="actions"><button type="submit">Save book</button><button type="button" class="secondary" onclick="closeForm()">Cancel</button></div>
+</form>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const defaults=[
+{id:1,title:'Atomic Habits',author:'James Clear',genre:'Self Development',status:'Reading',pages:320,current:96,cover:'a'},
+{id:2,title:'The Alchemist',author:'Paulo Coelho',genre:'Fiction',status:'Completed',pages:208,current:208,cover:'b'},
+{id:3,title:'Deep Work',author:'Cal Newport',genre:'Technology',status:'Want to Read',pages:296,current:0,cover:'c'},
+{id:4,title:'Ikigai',author:'Héctor García',genre:'Self Development',status:'Want to Read',pages:194,current:0,cover:'d'},
+{id:5,title:'Wings of Fire',author:'A. P. J. Abdul Kalam',genre:'Biography',status:'Completed',pages:180,current:180,cover:'e'},
+{id:6,title:'The Psychology of Money',author:'Morgan Housel',genre:'Science',status:'Reading',pages:256,current:64,cover:'f'}
+];
+function load(){try{const v=JSON.parse(localStorage.getItem('booknest-books'));return Array.isArray(v)?v:defaults}catch{return defaults}}
+let books=load(),filter='All',editing=null;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function save(){localStorage.setItem('booknest-books',JSON.stringify(books))}
+function progress(b){return b.status==='Completed'?100:b.pages>0?Math.min(100,Math.round((b.current||0)/b.pages*100)):0}
+function render(){
+const q=$('search').value.toLowerCase();
+const filters=['All','Reading','Want to Read','Completed'];
+$('filters').innerHTML=filters.map(f=>`<button class="${filter===f?'active':''}" onclick="setFilter('${f}')">${f}</button>`).join('');
+let list=books.filter(b=>(b.title+' '+b.author+' '+b.genre).toLowerCase().includes(q)&&(filter==='All'||b.status===filter));
+if($('sort').value==='az')list.sort((a,b)=>a.title.localeCompare(b.title));
+if($('sort').value==='progress')list.sort((a,b)=>progress(b)-progress(a));
+$('total').textContent=books.length;
+$('completed').textContent=books.filter(b=>b.status==='Completed').length;
+$('reading').textContent=books.filter(b=>b.status==='Reading').length;
+$('books').innerHTML=list.length?list.map(b=>`<article class="book">
+<div class="cover ${esc(b.cover||'a')}">${b.status==='Completed'?'📗':b.status==='Reading'?'📖':'📘'}</div>
+<span class="tag">${esc(b.genre)}</span><h3>${esc(b.title)}</h3><div class="author">by ${esc(b.author)}</div>
+<div class="progressrow"><span>${esc(b.status)}</span><span>${progress(b)}%</span></div>
+<progress max="100" value="${progress(b)}"></progress>
+<p>${b.pages?`${Math.min(b.current||0,b.pages)} of ${b.pages} pages read`:'Page count not added'}</p>
+<div class="actions"><button onclick="advance(${b.id})">Update progress</button><button class="secondary" onclick="editBook(${b.id})">Edit</button><button class="secondary" onclick="removeBook(${b.id})">Delete</button></div>
+</article>`).join(''):'<div class="empty">No books found. Try another search or add a book.</div>';
+}
+function setFilter(f){filter=f;render()}
+function openForm(b=null){
+editing=b?b.id:null;$('bookform').reset();$('formtitle').textContent=b?'Edit book':'Add a book';
+if(b){$('title').value=b.title;$('author').value=b.author;$('genre').value=b.genre;$('status').value=b.status;$('pages').value=b.pages||'';$('current').value=b.current||0}
+$('modal').classList.add('open')
+}
+function closeForm(){$('modal').classList.remove('open')}
+$('bookform').addEventListener('submit',e=>{
+e.preventDefault();
+const pages=Math.max(0,Number($('pages').value)||0);
+const status=$('status').value;
+const b={id:editing??Date.now(),title:$('title').value.trim(),author:$('author').value.trim(),genre:$('genre').value,status,pages,current:status==='Completed'&&pages?pages:Math.min(pages||Number($('current').value)||0,Math.max(0,Number($('current').value)||0)),cover:['a','b','c','d','e','f'][Math.floor(Math.random()*6)]};
+if(editing){const old=books.find(x=>x.id===editing);b.cover=old?.cover||b.cover;books=books.map(x=>x.id===editing?b:x)}else books.unshift(b);
+save();closeForm();render()
+});
+function advance(id){
+const b=books.find(x=>x.id===id);if(!b)return;
+if(b.status==='Want to Read'){b.status='Reading';if(!b.current)b.current=0}
+else if(b.status==='Reading'){
+if(!b.pages){const p=prompt('Enter the total number of pages first:');if(!p||!Number.isFinite(Number(p))||Number(p)<1)return;b.pages=Number(p)}
+const p=prompt(`Pages read so far (1–${b.pages}):`,String(b.current||0));
+if(p===null)return;
+if(!Number.isFinite(Number(p))||Number(p)<0||Number(p)>b.pages){alert('Enter a valid page number.');return}
+b.current=Number(p);if(b.current>=b.pages)b.status='Completed'
+}else{b.status='Reading';b.current=0}
+save();render()
+}
+function editBook(id){const b=books.find(x=>x.id===id);if(b)openForm(b)}
+function removeBook(id){if(confirm('Remove this book from your bookshelf?')){books=books.filter(b=>b.id!==id);save();render()}}
+$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeForm()});
+render();
+</script>
+</body>
+</html>
